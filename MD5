@@ -1,0 +1,16 @@
+755d01e346e681fdc14c6ac1b71f82f7 *DESCRIPTION
+4f064c1e68f9ad2c627d54c6677df27e *LICENSE
+848fdf58772ceb5d7f502681258aae96 *NAMESPACE
+3705662747520f2fd90cf9e7be20e09d *R/data.R
+625b0a5807cb66c5db4f810ed5668ccb *R/mzipmed_package.R
+4c8e19ea85a587db0d58b11926e8fcbe *data/mzipmed_data.rda
+904edbe587695b06320ee64e19cd9ef3 *man/binoutzimed.Rd
+663883d323d6947823d6c13bdb5cd177 *man/binoutzimedint.Rd
+fb8a9780bba2416b3d87862811c1fa18 *man/lmoutzimed.Rd
+7fb4a6172b9a04c9d32320e47774f088 *man/lmoutzimedint.Rd
+0c0c2dca48804c045f9b7d3301aeb81d *man/mzip.Rd
+df7d39a770eaca3a1a8f3cc8ea9f96e1 *man/mzipmed_data.Rd
+d92215ea9d940ec7d0dd6f29f03b55a6 *man/zioutbinmed.Rd
+c1760ef8ce83719cb2e009c3aef741eb *man/zioutbinmedint.Rd
+4cea4ca463fe5137259675585b112e2d *man/zioutlmmed.Rd
+fdeecf6f1a9630d16b216b26ce45c440 *man/zioutlmmedint.Rd
