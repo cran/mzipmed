@@ -66,7 +66,7 @@ have the same sample size. Binary variables must be dummy coded prior.
     ziout=zioutbinmed(outcome=mzipmed_data$ziY2,mediator=mzipmed_data$binM,
                    exposure=mzipmed_data$X,confounder=cbind(mzipmed_data$C1,
                    mzipmed_data$C2),error="Delta",robust=FALSE,X=1,Xstar=0)
-\donttest{
+\dontrun{
     #Example using bootstrapping with 10 iterations
     ziout2=zioutbinmed(outcome=mzipmed_data$ziY2,mediator=mzipmed_data$binM,
                    exposure=mzipmed_data$X,confounder=cbind(mzipmed_data$C1,
