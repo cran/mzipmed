@@ -42,15 +42,15 @@ zioutbinmed(
 The function will return a list of 12 elements.
 GLM is the logistic model regressing the exposure and covariates on the continuous mediator \cr
 MZIP is the results of regressing the exposure, covariates, and mediator on the outcome using the MZIP model \cr
-RRNDE is the risk ratio of the direct effect \cr
-RRNIE is the risk ratio of the indirect effect. \cr
-logRRNDEse is the standard error for the log risk ratio of NDE \cr
-RRNDEci is the 95\% confidence interval for the direct effect risk ratio\cr
-logRRNIEse is the standard error for  the indirect effect log risk ratio \cr
-RRNIEci is the 95\% confidence interval for the indirect effect risk ratio \cr
-RRTE is the total effect risk ratio \cr
-logRRTEse is the standard error for the total effect log risk ratio\cr
-RRTECI is the confidence interval for the total effect risk ratio \cr
+RRNDE is the incidence rate ratio of the direct effect \cr
+RRNIE is the incidence rate ratio of the indirect effect. \cr
+logRRNDEse is the standard error for the log rate ratio of NDE \cr
+RRNDEci is the 95\% confidence interval for the direct effect rate ratio\cr
+logRRNIEse is the standard error for  the indirect effect log rate ratio \cr
+RRNIEci is the 95\% confidence interval for the indirect effect rate ratio \cr
+RRTE is the total effect rate ratio \cr
+logRRTEse is the standard error for the total effect log rate ratio\cr
+RRTECI is the confidence interval for the total effect rate ratio \cr
 PM is the proportion mediated
 }
 \description{

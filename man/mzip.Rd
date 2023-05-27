@@ -4,14 +4,14 @@
 \alias{mzip}
 \title{Marginalized Zero-Inflated Poisson Regression Model}
 \usage{
-mzip(y, pred, print = FALSE)
+mzip(y, pred, print = TRUE)
 }
 \arguments{
 \item{y}{is the outcome variable}
 
 \item{pred}{is a vector of covariates (use cbind for multiple)}
 
-\item{print}{if =TRUE will give model parameters estimates and overall mean relative risks. Default =FALSE}
+\item{print}{if =TRUE will give model parameters estimates and overall mean relative risks. Default =TRUE}
 }
 \value{
 The function will return a list of 22 elements.

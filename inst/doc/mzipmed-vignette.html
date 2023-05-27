@@ -360,6 +360,7 @@ Mediators</a></li>
 </ul></li>
 <li><a href="#extensions-of-functions-to-cases-with-exposure-mediator-interactions">Extensions
 of functions to cases with exposure-mediator interactions</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#references">References</a></li>
 </ul>
 </div>
@@ -367,7 +368,7 @@ of functions to cases with exposure-mediator interactions</a></li>
 <p>In this document we explain the main features of the
 <code>mzipmed</code> package through examples. This package performs
 mediation analysis when either the outcome or mediator are a count
-variable with many zeroes, called a zero-inflated count. Specifically
+variable with many zeroes, called a zero-inflated count. Specifically,
 this package merges the concepts of the counterfactual approach to
 mediation and the marginalized zero-inflated Poisson (MZIP) model to
 obtain mediation effects when there are excess zeroes. Additional
@@ -407,23 +408,23 @@ a ratio scale.</p>
 </div>
 <div id="brief-overview-of-mzip" class="section level1">
 <h1>Brief overview of MZIP</h1>
-<p>Standard count regression models such as Poisson provide biased
+<p>Standard count regression models, such as Poisson, give biased
 parameter estimates and popular count models like the zero-inflated
 Poisson model do not directly provide population average parameter
 estimates. In response the marginalized zero-inflated Poisson (MZIP)
-model was created. MZIP is a mixture distribution model that models the
+model was proposed. MZIP is a mixture distribution that models the
 probability of being an excess zero from a Bernoulli distribution with
 probability <span class="math inline">\(\psi_i\)</span> and the overall
 mean of the distribution from a Poisson distribution with mean <span class="math inline">\(\nu_i\)</span>, where <span class="math inline">\(\nu_i\)</span> is the product of the mean of the
 non-excess zeroes, <span class="math inline">\(\mu_i\)</span>, and <span class="math inline">\(1-\psi_i\)</span>. MZIP is fit by <span class="math display">\[logit(\psi_i)=\mathbf{Z_i&#39;\gamma}\]</span>
 <span class="math display">\[log(\nu_i)=\mathbf{Z_i&#39;\alpha}\]</span>
-Where <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(gamma\)</span> are <span class="math inline">\((p\times 1)\)</span> column vectors of parameters
+Where <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span> are <span class="math inline">\((p\times 1)\)</span> column vectors of parameters
 associated with the overall population mean and probability of being an
 excess zero models. <span class="math inline">\(\mathbf{Z_i}\)</span> is
 a <span class="math inline">\((p\times 1)\)</span> vector of covariates
-for the i-th individual. for the excess zero and overall population mean
-components of MZIP. Exponentiating <span class="math inline">\(\alpha\)</span> parameters yield incident-density
-or risk ratio interpretations equivalent to Poisson model
+for the i-th individual for the excess zero and overall population mean
+components of MZIP. Exponentiating <span class="math inline">\(\alpha\)</span> parameters yield incidence density
+or incidence rate ratio interpretations equivalent to Poisson model
 interpretations.</p>
 </div>
 <div id="mzipmed_data-overview" class="section level1">
@@ -445,7 +446,7 @@ with error term ~N(0,4)</li>
 simulated with a Bernoulli distribution</li>
 <li><code>lmY</code> is a continuous outcome simulated from
 <code>ziM</code> and the predictors with error term ~N(0,4)</li>
-<li><code>binY</code> is a binary outcome similated from
+<li><code>binY</code> is a binary outcome simulated from
 <code>ziM</code> and the predictors with a Bernoulli distribution</li>
 <li><code>ziY1</code> is a zero-inflated count outcome simulated from
 <code>lmM</code> and the predictors</li>
@@ -456,9 +457,8 @@ instead uses <code>binM</code> and the predictors</li>
 <div id="mzip-function-for-analysis-with-zero-inflated-count-variables" class="section level1">
 <h1><code>mzip()</code> function for analysis with zero-inflated count
 variables</h1>
-<p>The <code>mzipmed</code> package is the first utilization of the MZIP
-model in R. MZIP can be performed with the <code>mzip()</code> function.
-For example, assume we would like to observe how our <code>X</code> is
+<p>MZIP can be performed with the <code>mzip()</code> function. For
+example, assume we would like to observe how our <code>X</code> is
 associated with <code>ziY1</code>from <code>mzipmed_data</code>. First
 we need to load the <code>mzipmed</code> package</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mzipmed)</span></code></pre></div>
@@ -466,9 +466,9 @@ we need to load the <code>mzipmed</code> package</p>
 analysis. First we need to specify the <code>y</code> argument which in
 our case <code>y=mzipmed_data$ziY1</code>. For the covariates we specify
 the <code>pred</code> argument. For a single predictor we could use
-<code>pred=mzipmed_data$X</code>, but suppose we adjust for
-<code>C1</code> and <code>C2</code> then we bind all the predictors into
-a vector using the <code>cbind()</code> function in base R,
+<code>pred=mzipmed_data$X</code>. Suppose we adjust for <code>C1</code>
+and <code>C2</code> then we bind all the predictors into a vector using
+the <code>cbind()</code> function in base R,
 e.g. <code>pred=cbind(mzipmed_data$X,mzipmed_data$C1,mzipmed_data$C2)</code>.
 If we want our covariates named in the outcome we need to specify within
 the <code>cbind()</code> function,
@@ -476,7 +476,7 @@ e.g. <code>pred=cbind(X=mzipmed_data$X,C1=mzipmed_data$C1,C2=mzipmed_data$C2)</
 otherwise they will be named X1,X2,… in order they are included. The
 final argument is <code>print=FALSE</code>, if <code>print=TRUE</code>
 parameter estimates, standard errors, p-values, and risk ratios will be
-printed into the R console. The default is FALSE. Using this example</p>
+printed into the R console. The default is TRUE. Using this example</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test<span class="ot">=</span><span class="fu">mzip</span>(<span class="at">y=</span>mzipmed_data<span class="sc">$</span>ziY1, <span class="at">pred=</span><span class="fu">cbind</span>(<span class="at">X=</span>mzipmed_data<span class="sc">$</span>X,<span class="at">C1=</span>mzipmed_data<span class="sc">$</span>C1,<span class="at">C2=</span>mzipmed_data<span class="sc">$</span>C2), <span class="at">print=</span><span class="cn">TRUE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Overall Mean Estimates from MZIP&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Variable Alpha_Estimate    SE P_Value Robust_SE Robust_P_Value</span></span>
@@ -490,18 +490,17 @@ printed into the R console. The default is FALSE. Using this example</p>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         X          0.288 0.199  0.1495     0.205         0.1614</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        C1          0.040 0.085  0.6436     0.081         0.6273</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        C2         -0.095 0.410  0.8172     0.399         0.8124</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Overall Mean Relative Risk Estimates&quot;</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Variable rel_risk Lower_CI Upper_CI RobLower_CI RobUpper_CI</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 intercept    0.595    0.402    0.879       0.374       0.946</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2         X    1.283    0.956    1.722       0.851       1.934</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        C1    1.066    0.930    1.221       0.923       1.230</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        C2    2.426    1.291    4.558       1.185       4.967</span></span></code></pre></div>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Overall Mean Incidence Rate Ratio Estimates&quot;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Variable incrate_ratio Lower_CI Upper_CI RobLower_CI RobUpper_CI</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        X         1.283    0.956    1.722       0.851       1.934</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       C1         1.066    0.930    1.221       0.923       1.230</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       C2         2.426    1.291    4.558       1.185       4.967</span></span></code></pre></div>
 <p>We find no evidence that <code>X</code> is significantly associated
 with the outcome and we obtain a relative risk estimate of 1.28. The
 robust standard errors are often used if over-dispersion is a concern as
 they typically provide wider confidence intervals. In the
 <code>test</code> output one can also find covariance matrices,
-parameter estimate confidence intervals, etc.</p>
+parameter estimates, confidence intervals, etc.</p>
 </div>
 <div id="mediation-with-zero-inflated-count-outcomes" class="section level1">
 <h1>Mediation with Zero-Inflated Count Outcomes</h1>
@@ -512,12 +511,12 @@ relationship between an exposure and a zero-inflated count mediator. We
 would fit the following models <span class="math display">\[logit(\psi_i|x,m,c)=\gamma_0+\gamma_1x+\gamma_2m+\mathbf{\gamma_4&#39;c}\]</span>
 <span class="math display">\[log(\nu_i|x,m,c)=\alpha_0+\alpha_1x+\alpha_2m+\mathbf{\alpha_4&#39;c}\]</span>
 <span class="math display">\[E(M|x,c)=\theta_0+\theta_1x+\mathbf{\theta_4&#39;c}\]</span>
-The overall mean outcome model is on a relative risk (RR) scale so NDE
-and NIE estimates will be as well and can be computed by <span class="math display">\[RR^{NDE}=e^{\alpha_1(x-x^*)}\]</span> <span class="math display">\[RR^{NIE}=e^{\alpha_2\theta_1(x-x^*)}\]</span> To
+The overall mean outcome model is on a incidence rate ratio (IRR) scale
+so NDE and NIE estimates will be as well and can be computed by <span class="math display">\[IRR^{NDE}=e^{\alpha_1(x-x^*)}\]</span> <span class="math display">\[IRR^{NIE}=e^{\alpha_2\theta_1(x-x^*)}\]</span> To
 conduct this mediation analysis in the <code>mzipmed</code> package we
 would use the <code>zioutlmmed()</code> function. This functions only
 allows for a single outcome, mediator, and exposure at a time. Using the
-<code>mzipmed</code> data let <span class="math inline">\(x=X\)</span>
+<code>mzipmed</code> data let <span class="math inline">\(X=X\)</span>
 and <span class="math inline">\(M=lmM\)</span> and our outcome is
 <code>ziY1</code>. We specify these variables with the following
 arguments
@@ -527,31 +526,31 @@ arguments
 errors can be computed using bootstrapping which is robust, but
 computationally intensive or via delta method for instantaneous variance
 estimation. For delta method use <code>error=&quot;Delta&quot;</code> which is the
-default and for bootstrap use <code>error=&quot;Boot&quot;</code>. For robust
-standard errors to be used with the delta method for concerns of
-over-dispersion set <code>robust=TRUE</code>, FALSE is the default. We
-also need to input values of the exposure to compare to using the
-<code>X</code> and <code>Xstar</code> arguments, for a dummy-coded
-binary exposure and by default we let <code>X=1</code> and
-<code>Xstar=0</code>. For bootstrap standard error you can specify the
-number of iterations, by default there are 1000 repetitions,
-<code>n=1000</code>. As an example</p>
+default and for bootstrap use <code>error=&quot;Boot&quot;</code>. Robust standard
+errors can be requested within the delta method to be used for concerns
+of over-dispersion by specifying <code>robust=TRUE</code>; FALSE is the
+default. We also need to input values of the exposure to compare to
+using the <code>X</code> and <code>Xstar</code> arguments, for a
+dummy-coded binary exposure and by default we let <code>X=1</code> and
+<code>Xstar=0</code>. These can be changed as needed. For bootstrap
+standard error you can specify the number of iterations, by default
+there are 1000 repetitions, <code>n=1000</code>. As an example</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ziout<span class="ot">=</span><span class="fu">zioutlmmed</span>(<span class="at">outcome=</span>mzipmed_data<span class="sc">$</span>ziY1,<span class="at">mediator=</span>mzipmed_data<span class="sc">$</span>lmM,<span class="at">exposure=</span>mzipmed_data<span class="sc">$</span>X, <span class="at">confounder=</span><span class="fu">cbind</span>(mzipmed_data<span class="sc">$</span>C1,mzipmed_data<span class="sc">$</span>C2), <span class="at">error=</span><span class="st">&quot;Delta&quot;</span>, <span class="at">robust=</span><span class="cn">FALSE</span>,<span class="at">X=</span><span class="dv">1</span>,<span class="at">Xstar=</span><span class="dv">0</span>,<span class="at">n=</span><span class="dv">1000</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              Estimate log SE Lower CI Upper CI</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (RR)      1.021  0.147    0.766    1.361</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Indirect Effect (RR)    1.163  0.068    1.018    1.328</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect (RR)               1.187  0.162    0.865    1.630</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated             0.889</span></span></code></pre></div>
-<p>Printed into the R console are the relative risks of the NDE, NIE,
-and TE along with their standard errors and confidence intervals and the
-proportion mediated. From the ziout data we see no evidence of a
-significant direct effect of the exposure on the outcome as the relative
-risk includes 1 in the confidence interval, but do see that a
-significant effect operating through the mediator since 1 is not in the
-confidence interval. Additional information in the ziout in the R global
-environment include all information included in the outcome model using
-<code>mzip()</code> and the mediator model using <code>lm()</code> from
-the <code>stats</code> package in base R.</p>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               Estimate log SE Lower CI Upper CI</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (IRR)      1.021  0.147    0.766    1.361</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Indirect Effect (IRR)    1.163  0.068    1.018    1.328</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect (IRR)               1.187  0.162    0.865    1.630</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated              0.889</span></span></code></pre></div>
+<p>Printed into the R console are the incidence rate ratios of the NDE,
+NIE, and TE along with their standard errors and confidence intervals
+and the proportion mediated. From the ziout data we see no evidence of a
+significant direct effect of the exposure on the outcome as the
+incidence rate ratio includes 1 in the confidence interval, but do see
+that a significant effect operating through the mediator since 1 is not
+in the confidence interval. Additional information in the ziout in the R
+global environment include all information included in the outcome model
+using <code>mzip()</code> and the mediator model using <code>lm()</code>
+from the <code>stats</code> package in base R.</p>
 </div>
 <div id="binary-mediators" class="section level2">
 <h2>Binary Mediators</h2>
@@ -562,23 +561,23 @@ is fit for the mediator model using the <code>glm()</code> function in
 base R. The aforementioned function is called
 <code>zioutbinmed()</code>. The NDE is the same as with continuous
 mediators, but the NIE is now conditional on covariates</p>
-<p><span class="math display">\[\frac{([1+e^{\theta_0+\theta_1x^*+\mathbf{\theta_2&#39;c}}][1+e^{\alpha_2
+<p><span class="math display">\[IRR^{NIE}=\frac{([1+e^{\theta_0+\theta_1x^*+\mathbf{\theta_2&#39;c}}][1+e^{\alpha_2
 \theta_0+\theta_1x+\mathbf{\theta_2&#39;c}}])}{([1+e^{\theta_0+\theta_1x+\mathbf{\theta_2&#39;c}}][1+e^{\alpha_2\theta_0+\theta_1x^*+\mathbf{\theta_2&#39;c}}])}\]</span>
 Therefore fixed values of the covariates are required. The input for the
 <code>zioutbinmed()</code> function is the same as in the previous
 section, but also includes an argument to specify these covariates
 called <code>C</code>. By default, <code>C=NULL</code> each covariate
 will be fixed at its mean value to approximate marginal estimates, but
-can be changed using for example <code>C=c(0,2)</code>. Excluding that
+can be changed using for example <code>C=c(0,2)</code>. The remainder of
 the input and output for this function is the same as with the a
 continuous mediator and we now use
 <code>outcome=mzipmed_data$ziY2</code> for the outcome variable.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zioutb<span class="ot">=</span><span class="fu">zioutbinmed</span>(<span class="at">outcome=</span>mzipmed_data<span class="sc">$</span>ziY2,<span class="at">mediator=</span>mzipmed_data<span class="sc">$</span>binM,  <span class="at">exposure=</span>mzipmed_data<span class="sc">$</span>X, <span class="at">confounder=</span><span class="fu">cbind</span>(mzipmed_data<span class="sc">$</span>C1,mzipmed_data<span class="sc">$</span>C2), <span class="at">error=</span><span class="st">&quot;Delta&quot;</span>,  <span class="at">robust=</span><span class="cn">FALSE</span>,<span class="at">X=</span><span class="dv">1</span>, <span class="at">Xstar=</span><span class="dv">0</span>, <span class="at">n=</span><span class="dv">1000</span>, <span class="at">C=</span><span class="cn">NULL</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              Estimate log SE Lower CI Upper CI</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (RR)      1.267  0.138    0.966    1.661</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Indirect Effect (RR)    1.008  0.011    0.987    1.029</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect (RR)               1.277  0.138    0.974    1.674</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated             0.037</span></span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               Estimate log SE Lower CI Upper CI</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (IRR)      1.267  0.138    0.966    1.661</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Indirect Effect (IRR)    1.008  0.011    0.987    1.029</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect (IRR)               1.277  0.138    0.974    1.674</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated              0.037</span></span></code></pre></div>
 </div>
 </div>
 <div id="mediation-with-zero-inflated-count-mediators" class="section level1">
@@ -590,8 +589,8 @@ continuous mediator and we now use
 outcome model and a MZIP mediator model as follows: <span class="math display">\[E(Y|x,m,c)=\beta_0+\beta_1x+\beta_2m+\mathbf{\beta_4&#39;c}\]</span>
 <span class="math display">\[logit(\psi_i(M)|x,c)=\gamma_0+\gamma_1x+\mathbf{\gamma_4&#39;c}\]</span>
 <span class="math display">\[log(\nu_i(M)|x,c)=\alpha_0+\alpha_1x+\mathbf{\alpha_4&#39;c}\]</span>
-Because the outcome is on a risk difference scale, so will the NDE and
-NIE estimates which can be derived by <span class="math display">\[\beta_1(x-x^*)\]</span> <span class="math display">\[\beta_2[e^{\alpha_0+\alpha_1x+\mathbf{\alpha_4&#39;c}}-e^{\alpha_0+\alpha_1x^*+\mathbf{\alpha_4&#39;c}}]\]</span>
+Because the outcome is on a difference scale, so will the NDE and NIE
+estimates which can be derived by <span class="math display">\[\beta_1(x-x^*)\]</span> <span class="math display">\[\beta_2[e^{\alpha_0+\alpha_1x+\mathbf{\alpha_4&#39;c}}-e^{\alpha_0+\alpha_1x^*+\mathbf{\alpha_4&#39;c}}]\]</span>
 For this mediation analysis the <code>lmoutzimed()</code> function could
 be used. For example with the <code>mzipmed_data</code> we assume the
 same set of predictors as in the section with ZI outcomes, but now let
@@ -609,7 +608,7 @@ being on a difference scale. For example,</p>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect               1.460  0.367    0.741    2.179</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated        0.049</span></span></code></pre></div>
 <p>After running the function we can see in the R console that the NDE
-is statistically significant as the risk difference does not include 0
+is statistically significant as the mean difference does not include 0
 in the confidence interval, but the NIE is not significant because it
 includes 0. Additional information on the individual outcome and
 mediator models can be found in the <code>zimed</code> data now in the
@@ -625,11 +624,15 @@ using the <code>glmrob()</code> function in the <code>robust</code>
 package. Assuming the same input as in the section for continuous
 outcomes, but now <code>outcome=mzipmed_data$binY</code>and NDE and NIE
 estimates will now be on a ratio scale because of the Poisson outcome
-model. We will not show the formula for the risk ratios of NDE and NIE
-because they are extremely long, these formulas can be provided in
-future publications or via contacting the author directly. For this
-scenario we will use the <code>binoutzimed()</code> function. For
-example,</p>
+model. The outcome model will be</p>
+<p><span class="math display">\[log[P(Y_i=1|x,m,c)]=\tau_0+\tau_1x+\tau_2m+\mathbf{\tau_4&#39;c}\]</span></p>
+<p>The same MZIP mediator model can be used as shown in the previous
+section. Risk ratios of NDE and NIE can be derived as displayed
+below.</p>
+<p><span class="math display">\[RR^{NDE}=e^{\tau_1(x-x^*)}\]</span>
+<span class="math display">\[RR^{NIE}=\frac{(1+e^{\gamma_0+\gamma_1x^*+\mathbf{\gamma_4&#39;c}})(e^{\gamma_0+\gamma_1x+\mathbf{\gamma_4&#39;c}}+e^{(e^{\alpha_0+\alpha_1x+\mathbf{\alpha_4&#39;c}+log(1+e^{\gamma_0+\gamma_1x+\mathbf{\gamma_4&#39;c}})})(e^{\tau_2}-1)}}{(1+e^{\gamma_0+\gamma_1x+\mathbf{\gamma_4&#39;c}})(e^{\gamma_0+\gamma_1x^*+\mathbf{\gamma_4&#39;c}}+e^{(e^{\alpha_0+\alpha_1x^*+\mathbf{\alpha_4&#39;c}+log(1+e^{\gamma_0+\gamma_1x^*+\mathbf{\gamma_4&#39;c}})})(e^{\tau_2}-1)}}\]</span></p>
+<p>For this scenario we will use the <code>binoutzimed()</code>
+function. For example,</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>zimedb<span class="ot">=</span><span class="fu">binoutzimed</span>(<span class="at">outcome=</span>mzipmed_data<span class="sc">$</span>binY,<span class="at">mediator=</span>mzipmed_data<span class="sc">$</span>ziM, <span class="at">exposure=</span>mzipmed_data<span class="sc">$</span>X, <span class="at">confounder=</span><span class="fu">cbind</span>(mzipmed_data<span class="sc">$</span>C1,mzipmed_data<span class="sc">$</span>C2),<span class="at">error=</span><span class="st">&quot;Delta&quot;</span>, <span class="at">robust=</span><span class="cn">FALSE</span>,<span class="at">X=</span><span class="dv">1</span>,<span class="at">Xstar=</span><span class="dv">0</span>,<span class="at">C=</span><span class="cn">NULL</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              Estimate log SE Lower CI Upper CI</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (RR)      1.351  0.136    1.035    1.765</span></span>
@@ -674,31 +677,41 @@ Running the function will print the NDE, NIE, and TE in R console like
 before as well as the other 4 effects, the overall additive interaction
 effect, and PM, PE, and the proportion attributable to interaction.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>zimout<span class="ot">=</span><span class="fu">zioutlmmedint</span>(<span class="at">outcome=</span>mzipmed_data<span class="sc">$</span>ziY1,<span class="at">mediator=</span>mzipmed_data<span class="sc">$</span>lmM, <span class="at">exposure=</span>mzipmed_data<span class="sc">$</span>X, <span class="at">confounder=</span><span class="fu">cbind</span>(mzipmed_data<span class="sc">$</span>C1,mzipmed_data<span class="sc">$</span>C2),<span class="at">error=</span><span class="st">&quot;Delta&quot;</span>, <span class="at">robust=</span><span class="cn">FALSE</span>,<span class="at">X=</span><span class="dv">1</span>,<span class="at">Xstar=</span><span class="dv">0</span>,<span class="at">M=</span><span class="cn">NULL</span>,<span class="at">C=</span><span class="cn">NULL</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               Estimate log SE Lower CI Upper CI</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (RR)       1.105  0.241    0.689    1.772</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Indirect Effect (RR)     1.186  0.079    1.017    1.384</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect (RR)                1.311  0.266    0.778    2.208</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4-way Decomposition                                            </span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Controlled Direct Effect (RR)    0.990  0.148    0.741    1.323</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pure Indirect Effect (RR)        1.145  0.063    1.011    1.296</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Interactive Reference Effect     0.132  0.053    0.028    0.235</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Interactive Mediation Effect     0.071  0.073   -0.072    0.213</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Additive Interaction       0.202  0.107   -0.007    0.411</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportions                                                    </span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated              0.662                         </span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Eliminated            1.032                         </span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion from Interaction      0.562</span></span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                Estimate log SE Lower CI Upper CI</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Direct Effect (IRR)       1.105  0.241    0.689    1.772</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Natural Indirect Effect (IRR)     1.186  0.079    1.017    1.384</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Effect (IRR)                1.311  0.266    0.778    2.208</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                 </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4-way Decomposition                                             </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Controlled Direct Effect (IRR)    0.990  0.148    0.741    1.323</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pure Indirect Effect (IRR)        1.145  0.063    1.011    1.296</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Interactive Reference Effect      0.132  0.053    0.028    0.235</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Interactive Mediation Effect      0.071  0.073   -0.072    0.213</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Total Additive Interaction        0.202  0.107   -0.007    0.411</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                 </span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportions                                                     </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Mediated               0.662                         </span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion Eliminated             1.032                         </span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Proportion from Interaction       0.562</span></span></code></pre></div>
 <p>From this example we fail to see a significant NDE, but do have a
-significant mediation effect based on relative risk interpretations. The
-interaction effects are on a difference scale regardless of the scale of
-the outcome variable so because 0 is included in the total additive
-interaction confidence interval we can conclude that we do not have
-evidence of a significant additive interaction effect between the
-exposure and mediator on the outcome. Investigating further into the
-zimout data in the global environment proportions attributable to each
-of the decomposed effects are provided.</p>
+significant mediation effect based on incidence rate ratio
+interpretations. The interaction effects are on a difference scale
+regardless of the scale of the outcome variable so because 0 is included
+in the total additive interaction confidence interval we can conclude
+that we do not have evidence of a significant additive interaction
+effect between the exposure and mediator on the outcome. Investigating
+further into the zimout data in the global environment proportions
+attributable to each of the decomposed effects are provided. Because the
+interaction was not significant, it would be recommended to use the
+function that does not include the interaction term. It is always useful
+to check for an interaction effect initially.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>This package provides functions for conducting mediation analysis for
+zero-inflated count variables using MZIP. This document serves as a
+brief overview of the package. For more information feel free to contact
+the package maintainer directly.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
