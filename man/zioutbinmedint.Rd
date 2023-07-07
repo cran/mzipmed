@@ -15,7 +15,8 @@ zioutbinmedint(
   Xstar = 0,
   C = NULL,
   error = "Delta",
-  robust = FALSE
+  robust = FALSE,
+  zioff = NULL
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ zioutbinmedint(
 \item{error}{='Delta' for delta method standard errors and ='Boot' for bootstrap. Default is delta method}
 
 \item{robust}{indicates if a robust covariance matrix should be used for MZIP in delta method derivations. Default is FALSE.}
+
+\item{zioff}{(optional) use to specify an offset variable within the MZIP outcome model.}
 }
 \value{
 The function will return a list of 34 elements.
@@ -85,5 +88,6 @@ This function will do the same thing as the zioutbinmed function, but includes a
 \examples{
     zimout=zioutbinmedint(outcome=mzipmed_data$ziY2,mediator=mzipmed_data$binM,
                    exposure=mzipmed_data$X,confounder=cbind(mzipmed_data$C1,
-                   mzipmed_data$C2),error="Delta",robust=FALSE,X=1,Xstar=0,M=NULL,C=NULL)
+                   mzipmed_data$C2),error="Delta",robust=FALSE,X=1,Xstar=0,M=NULL,C=NULL,
+                   zioff=NULL)
 }

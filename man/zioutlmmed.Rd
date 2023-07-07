@@ -13,7 +13,8 @@ zioutlmmed(
   Xstar = 0,
   error = "Delta",
   n = 1000,
-  robust = FALSE
+  robust = FALSE,
+  zioff = NULL
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ zioutlmmed(
 \item{n}{is the number of repetition if bootstrapped errors are used. Default is 1000}
 
 \item{robust}{indicates if a robust covariance matrix should be used for MZIP in delta method derivations. Default is FALSE.}
+
+\item{zioff}{(optional) use to specify an offset variable within the MZIP outcome model.}
 }
 \value{
 The function will return a list of 12 elements.
@@ -56,16 +59,18 @@ as proposed by Vanderweele when the outcome is a Zero-Inflated count variable fo
 continuous mediators. Standard Errors for
 direct and indirect effects are computed using delta method or bootstrapping. Note: This function
 assumes that the outcome is continuous and all exposure, mediator, outcome, and confounder variables
-have the same sample size. Binary variables must be dummy coded prior.
+have the same sample size. Binary variables must be dummy coded prior. See vignette for information
+on use of the offset.
 }
 \examples{
     #Example using delta method
     ziout=zioutlmmed(outcome=mzipmed_data$ziY1,mediator=mzipmed_data$lmM,
                  exposure=mzipmed_data$X,confounder=cbind(mzipmed_data$C1,
-                 mzipmed_data$C2),error="Delta",robust=FALSE,X=1,Xstar=0)
+                 mzipmed_data$C2),error="Delta",robust=FALSE,X=1,Xstar=0,
+                 zioff=NULL)
 
    #Example using boostrapping, 10 iterations used for succinctness
    ziout2=zioutlmmed(outcome=mzipmed_data$ziY1,mediator=mzipmed_data$lmM,
                  exposure=mzipmed_data$X, confounder=cbind(mzipmed_data$C1,
-                 mzipmed_data$C2),error="Boot",n=10)
+                 mzipmed_data$C2),error="Boot",n=10,zioff=NULL)
 }
